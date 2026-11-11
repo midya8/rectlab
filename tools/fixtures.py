@@ -2,6 +2,7 @@ import json,random,copy,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from rectlab import solve,verify
+from rectlab.families import select_from
 P=Path(__file__).resolve().parents[1]
 
 def fixtures():
@@ -34,6 +35,7 @@ if __name__=='__main__':
   try:verify(q)
   except ValueError:pass
   else:raise AssertionError(p)
- payload={'inputs':fixtures(),'reports':reports,'forgery_base':base,'forgery_paths':[list(p)for p in paths(base)]}
+ family_witnesses=[{f:[select_from(s,f,str(i))for i in range(int(s[f]['count']))]for f in ['cover','maximal_cover','partition']}for s in reports[:9]]
+ payload={'family_witnesses':family_witnesses,'inputs':fixtures(),'reports':reports,'forgery_base':base,'forgery_paths':[list(p)for p in paths(base)]}
  (P/'tests/fixtures.json').write_text(json.dumps(payload,separators=(',',':'))+'\n')
  print(json.dumps({'reports':len(reports),'rectangles':sum(len(s['rectangles'])for s in reports),'subsets':sum(len(s['fooling_subsets'])for s in reports),'forgeries':len(payload['forgery_paths'])}))
