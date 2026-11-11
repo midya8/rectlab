@@ -21,12 +21,15 @@ def reconstruct(data):
    t=sum(1<<b for j,b in enumerate(bits)if sub>>j&1);m=sum(not(rect[i]['mask']&t)for i in ids)
    if m>=k:ans+=(-1 if sub.bit_count()%2 else 1)*comb(m,k)
   return ans
+ def membership(inc,ct):
+  return dict(inclusion_counts=list(map(str,inc)),mandatory=[i for i,c in enumerate(inc)if c==ct],optional=[i for i,c in enumerate(inc)if 0<c<ct],never=[i for i,c in enumerate(inc)if c==0])
  def cover(ids):
   k=next(k for k in range(n+1)if count(ids,full,k));ct=count(ids,full,k);chosen=[];need=full;left=k
   for j,rid in enumerate(ids):
    if left and count(ids[j+1:],need&~rect[rid]['mask'],left-1):chosen.append(rid);need&=~rect[rid]['mask'];left-=1
   assert need==0 and left==0
-  return dict(size=k,count=str(ct),witness=chosen)
+  inc=[count([j for j in ids if j!=rid],full&~rect[rid]['mask'],k-1)if rid in ids else 0 for rid in range(len(rect))]
+  return dict(size=k,count=str(ct),witness=chosen,**membership(inc,ct))
  co=cover(list(range(len(rect))));mc=cover([r['id']for r in rect if r['maximal']])
  @lru_cache(None)
  def part(remaining):
@@ -39,7 +42,7 @@ def reconstruct(data):
    if v<best:best,ct,w=v,c,ws
    elif v==best:ct+=c;w=min(w,ws)
   return best,ct,w
- size,ct,ws=part(full);pa=dict(size=size,count=str(ct),witness=list(ws))
+ size,ct,ws=part(full);inc=[part(full^r['mask'])[1]if part(full^r['mask'])[0]==size-1 else 0 for r in rect];pa=dict(size=size,count=str(ct),witness=list(ws),**membership(inc,ct))
  fs=[];maxsize=0;maxm=[]
  for mask in range(1<<n):
   ids=[i for i in range(n)if mask>>i&1];bad=None
@@ -63,7 +66,7 @@ def reconstruct(data):
  for name,v in [('cover',co),('maximal_cover',mc),('partition',pa)]:
   ws=v['witness'];B=[[int(i in rect[k]['rows'])for k in ws]for i in range(R)];D=[[int(j in rect[k]['columns'])for j in range(C)]for k in ws];counts=[[sum(int(i in rect[k]['rows'] and j in rect[k]['columns'])for k in ws)for j in range(C)]for i in range(R)]
   factors[name]=dict(left=B,right=D,multiplicities=counts,boolean_product=[[int(v!=0)for v in row]for row in counts],overlap_cells=[[i,j]for i in range(R)for j in range(C)if counts[i][j]>1])
- return dict(schema='rectlab/1',input=data,cells=cells,rectangles=rect,cover=co,maximal_cover=mc,partition=pa,factors=factors,fooling_subsets=fs,maximum_fooling_size=maxsize,maximum_fooling_masks=maxm,real_rank=rank,lower_bound_gap=co['size']-maxsize,partition_gap=pa['size']-co['size'])
+ return dict(schema='rectlab/2',input=data,cells=cells,rectangles=rect,cover=co,maximal_cover=mc,partition=pa,factors=factors,fooling_subsets=fs,maximum_fooling_size=maxsize,maximum_fooling_masks=maxm,real_rank=rank,lower_bound_gap=co['size']-maxsize,partition_gap=pa['size']-co['size'])
 
 @lru_cache(maxsize=128)
 def _expected(matrix):

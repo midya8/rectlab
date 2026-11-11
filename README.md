@@ -1,6 +1,6 @@
 # RectLab
 
-Exact finite Boolean factorization, with the counting conventions exposed.
+Exact finite Boolean factorization, with every optimum accessible and its factor membership counted. Version 0.2.
 
 The same binary matrix can have Boolean rank 3, arithmetic rank 4 and minimum partition size 4. A maximum fooling set can have size 3 while every cover needs 4 rectangles. RectLab makes those distinctions inspectable instead of treating any of them as interchangeable evidence.
 
@@ -10,8 +10,11 @@ Python 3.10+, no runtime dependencies:
 
 ```sh
 python -m pip install .
-printf '{"matrix":[[1,1],[1,0]]}' | rectlab solve > report.json
+printf '{"matrix":[[1,1],[1,0]]}' > input.json
+rectlab solve input.json > report.json
 rectlab verify report.json
+rectlab select input.json --family cover --index 0
+rectlab rank input.json --family cover --factors '[1,4]'
 python -m rectlab verify report.json
 python -m http.server 8000 --directory docs
 ```
@@ -28,7 +31,7 @@ Open `http://localhost:8000` for the browser inspector. Published deployment is 
 - Every positive-cell subset's fooling-set verdict and first obstructing pair, all maximum witnesses and the exact lower-bound gap.
 - Arithmetic rank over the rationals, which is not used as a lower bound on Boolean rank.
 
-The domain is 1..5 rows, 1..5 columns, at most 12 ones. The zero matrix has one empty cover. Counts ignore factor order, forbid repeated rectangles and include nonmaximal factors unless explicitly labeled otherwise. The UI shows one optimum per family, not every optimal cover. All maximum fooling sets are selectable; every subset audit is in the certificate.
+The domain is 1..5 rows, 1..5 columns, at most 12 ones. The zero matrix has one empty cover. Counts ignore factor order, forbid repeated rectangles and include nonmaximal factors unless explicitly labeled otherwise. The certificate retains index 0 per family. The UI and CLI can select any zero-based lexicographic optimum by its exact decimal index, without materializing the entire family. Each legal factor has an exact inclusion count and mandatory/optional/never classification, relative to the selected family. Ineligible nonmaximal factors are labeled separately in maximal-only mode. All maximum fooling sets are selectable; every subset audit is in the certificate.
 
 ## Why the verifier is different
 
@@ -51,5 +54,13 @@ python tools/reference.py
 Node 22+ and Chrome are needed for native browser tests. `CHROME_BIN` can name a Chrome executable. No npm runtime packages are needed.
 
 The developed lower-bound-gap control has 11 ones, 41 legal rectangles, minimum size 4, 68 unrestricted minimum covers, 13 maximal-only minimum covers and maximum fooling-set size 3. The overlap control has a unique 3-factor cover, minimum partition size 4 and arithmetic rank 4. These are synthetic developed examples, not learned data, causal ablations or a benchmark victory.
+
+## All explanations, not a favored first one
+
+The default has 68 optimal covers. Factor R0 appears in only 1/68; R12 appears in 40/68, versus 9/13 under maximal-only restriction. No factor is mandatory in that control. The unique-cover overlap control instead makes all three selected factors mandatory. These are exact combinatorial proportions under a specified uniform counting convention, not learned likelihoods or explanations of a real dataset.
+
+The generator propagates optimal-prefix counts over its DP state graph and multiplies them by exact suffix counts for each take edge. The independent checker forces each factor and counts residual completions with inclusion-exclusion, or independent residual partition recursion. It checks the entire inclusion vector and all classifications. Rank/unrank follows take-before-skip branch counts, which matches lexicographic sorted fixed-cardinality factor-id sets.
+
+Schema is now `rectlab/2`. Version 0.2 rejects old `rectlab/1` certificates rather than silently pretending they contain the new census. Regenerate from the embedded input. Public API `select_witness(input,family,index)` / `rank_witness(input,family,factors)` computes its own report; lower-level `select_from` / `rank_from` assume an already generated or verified report.
 
 See [method](docs/method.md), [validation](docs/validation.md) and [sources](docs/sources.md). This project implements established finite mathematics. It does not claim noisy matrix factorization, large-scale performance, neural representation quality, access-control deployment or a new lower bound.

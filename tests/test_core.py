@@ -28,7 +28,7 @@ class Core(unittest.TestCase):
    s=solve({'matrix':a});t=solve({'matrix':[r+[0]for r in a]+[[0]*(len(a[0])+1)]})
    self.assertEqual(s['cover'],t['cover']);self.assertEqual(s['partition'],t['partition'])
  def test_empty(self):
-  s=solve({'matrix':[[0]*5]*5});self.assertEqual(s['cover'],{'size':0,'count':'1','witness':[]});self.assertEqual(s['maximum_fooling_masks'],[0]);self.assertEqual(s['real_rank'],0);self.assertTrue(verify(s))
+  s=solve({'matrix':[[0]*5]*5});self.assertEqual(s['cover'],{'size':0,'count':'1','witness':[],'inclusion_counts':[],'mandatory':[],'optional':[],'never':[]});self.assertEqual(s['maximum_fooling_masks'],[0]);self.assertEqual(s['real_rank'],0);self.assertTrue(verify(s))
  def test_strict_schema(self):
   bad=[{},[],{'matrix':[]},{'matrix':[[True]]},{'matrix':[[1.0]]},{'matrix':[[2]]},{'matrix':[[1],[]]},{'matrix':[[0]*6]},{'matrix':[[0]]*6},{'matrix':[[1]*5]*3},{'matrix':[[1]],'extra':0}]
   for x in bad:
