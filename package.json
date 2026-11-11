@@ -1,0 +1,8 @@
+{
+  "name": "rectlab-inspector",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/engine.test.mjs tests/test_browser.cjs",
+    "pretest": "python tools/fixtures.py"
+  }
+}

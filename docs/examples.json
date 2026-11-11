@@ -1,0 +1,250 @@
+[
+  {
+    "id": "gap",
+    "title": "A lower bound can stop short",
+    "input": {
+      "matrix": [
+        [
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "overlap",
+    "title": "Overlap changes the answer",
+    "input": {
+      "matrix": [
+        [
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "ties",
+    "title": "Extending factors changes the census",
+    "input": {
+      "matrix": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "solid",
+    "title": "One factor, twelve cells",
+    "input": {
+      "matrix": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "identity",
+    "title": "Every one needs its own factor",
+    "input": {
+      "matrix": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "empty",
+    "title": "The empty cover is one choice",
+    "input": {
+      "matrix": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "id": "single",
+    "title": "A single positive cell",
+    "input": {
+      "matrix": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "id": "wide",
+    "title": "Five columns with unused rows",
+    "input": {
+      "matrix": [
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  {
+    "id": "boundary",
+    "title": "Twelve ones in five by five",
+    "input": {
+      "matrix": [
+        [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          1
+        ]
+      ]
+    }
+  }
+]
