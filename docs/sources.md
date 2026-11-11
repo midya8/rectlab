@@ -15,3 +15,9 @@ Read November 10, 2026. Existing results are attributed here; all fixture matric
 [Geraci, Kunin and Seceleanu, Boolean Rank via Monomial Ideals, 2025](https://arxiv.org/abs/2509.09570) was inspected as recent adjacent primary work. Its algebraic bounds are not implemented or claimed. Abstract-only use is limited to identifying the adjacent topic.
 
 Portfolio distinction: ConceptLab studies closures, concepts and implications. RectLab optimizes/counts covers across all legal rectangles, separately restricted maximal rectangles and disjoint partitions, and checks the fooling-set gap. It does not reimplement concept-lattice exploration as a new project.
+
+## Version 0.2 additions
+
+[Skiena, Combinatorial Generation lecture, Stony Brook](https://www3.cs.stonybrook.edu/%7Eskiena/392/brazil/lecture3.pdf), university lecture, read November 10, 2026: count/rank/unrank operations and count-guided recursive blocks. One displayed slide appears to repeat the plus sign for both next and previous; RectLab derives and tests its own predecessor boundary rather than copying that typo. No random generator is implemented or claimed.
+
+[Python itertools documentation](https://docs.python.org/3/library/itertools.html), official software reference, read November 10, 2026: combinations used only by explicit tiny-family test oracles. It is not the production family-access algorithm. Existing six factorization/FCA/solver sources were rechecked for unchanged semantics. Inclusion membership is an exact count over declared unordered factor sets, not an imported probability model.
